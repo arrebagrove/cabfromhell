@@ -34,8 +34,7 @@ namespace CanMonitor
         private bool next;
         private int i;
         private DeviceClient deviceClient;
-        private Guid id = Guid.NewGuid();
-
+ 
         public MainPage()
         {
             this.InitializeComponent();
@@ -61,13 +60,10 @@ namespace CanMonitor
             double x, y, z;
 
             this.hat.GetAcceleration(out x, out y, out z);
-            this.LightTextBox.Text = this.hat.GetLightLevel().ToString("P2");
-            this.TempTextBox.Text = this.hat.GetTemperature().ToString("N2");
-            this.AccelTextBox.Text = $"({x:N2}, {y:N2}, {z:N2})";
 
             try
             {
-                string dataBuffer = $"({id};{x:N2};{y:N2};{z:N2})";
+                string dataBuffer = $"Boogieman|{x:N2}|{y:N2}|{z:N2}";
                 Message eventMessage = new Message(Encoding.UTF8.GetBytes(dataBuffer));
                 Debug.WriteLine(dataBuffer);
                 await deviceClient.SendEventAsync(eventMessage);

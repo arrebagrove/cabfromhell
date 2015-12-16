@@ -34,7 +34,9 @@ namespace CanMonitor
         private bool next;
         private int i;
         private DeviceClient deviceClient;
- 
+        private double _x, _y, _z;
+        private int counter;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -58,28 +60,40 @@ namespace CanMonitor
         private async void OnTick(object sender, object e)
         {
             double x, y, z;
-
             this.hat.GetAcceleration(out x, out y, out z);
+            _x = _x + x;
+            _y = _y + y;
+            _z = _z + z;
 
-            try
+            if (counter >= 50)
             {
-                string dataBuffer = $"Boogieman|{x:N2}|{y:N2}|{z:N2}";
-                Message eventMessage = new Message(Encoding.UTF8.GetBytes(dataBuffer));
-                Debug.WriteLine(dataBuffer);
-                await deviceClient.SendEventAsync(eventMessage);
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine("Can't send message because of network issues");
-            }
-            if ((this.i++%5) == 0)
-            {
-                this.hat.D2.Color = this.next ? GIS.FEZHAT.Color.Blue : GIS.FEZHAT.Color.Red;
-                this.hat.D3.Color = this.next ? GIS.FEZHAT.Color.Red : GIS.FEZHAT.Color.Blue;
-                
-                this.next = !this.next;
-            }
+                _x = Math.Pow(_x, 2);
+                _y = Math.Pow(_y, 2);
+                _z = Math.Pow(_z, 2);
+                double res = Math.Sqrt(_x + _y + _z);
 
+                try
+                {
+                    string dataBuffer = $"Boogieman|{res:N4}|{counter / 10}";
+                    Message eventMessage = new Message(Encoding.UTF8.GetBytes(dataBuffer));
+                    Debug.WriteLine(dataBuffer);
+                    await deviceClient.SendEventAsync(eventMessage);
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine("Can't send message because of network issues");
+                }
+                if ((this.i++%5) == 0)
+                {
+                    this.hat.D2.Color = this.next ? GIS.FEZHAT.Color.Blue : GIS.FEZHAT.Color.Red;
+                    this.hat.D3.Color = this.next ? GIS.FEZHAT.Color.Red : GIS.FEZHAT.Color.Blue;
+
+                    this.next = !this.next;
+                }
+                _x = _y = _z = 0;
+                counter = 0;
+            }
+            counter++;
         }
 
         static async Task ReceiveCommands(DeviceClient deviceClient)

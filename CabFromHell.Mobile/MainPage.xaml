@@ -3,6 +3,10 @@
 	<ContentPage.Content>
 		<StackLayout VerticalOptions="Center">
 			<Label Text="Hello"></Label>
+			<Button Text="Send Message" 
+					Clicked="ButtonClicked"
+					HorizontalOptions="Center" 
+					VerticalOptions="CenterAndExpand"></Button>
 		</StackLayout>
 
 	</ContentPage.Content>

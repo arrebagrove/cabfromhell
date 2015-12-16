@@ -64,8 +64,8 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICabDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IScoringService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

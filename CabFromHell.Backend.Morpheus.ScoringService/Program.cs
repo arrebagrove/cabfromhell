@@ -22,7 +22,7 @@ namespace CabFromHell.Backend.Morpheus.ScoringService
                     // The contents of your ServiceManifest.xml and ApplicationManifest.xml files
                     // are automatically populated when you build this project.
                     // For more information, see http://aka.ms/servicefabricactorsplatform
-                    fabricRuntime.RegisterActor<ScoringService>();
+                    fabricRuntime.RegisterActor<CabDriver>();
 
                     Thread.Sleep(Timeout.Infinite);  // Prevents this host process from terminating to keep the service host process running.
                 }

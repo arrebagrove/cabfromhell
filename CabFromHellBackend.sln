@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CabFromHell.Backend.Interfaces", "CabFromHell.Backend.Interfaces\CabFromHell.Backend.Interfaces.csproj", "{2FA9D32D-F9E2-429E-8757-B6B231155395}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2FA9D32D-F9E2-429E-8757-B6B231155395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FA9D32D-F9E2-429E-8757-B6B231155395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FA9D32D-F9E2-429E-8757-B6B231155395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FA9D32D-F9E2-429E-8757-B6B231155395}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

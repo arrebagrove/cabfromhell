@@ -34,6 +34,7 @@ namespace CanMonitor
         private bool next;
         private int i;
         private DeviceClient deviceClient;
+        private Guid id = Guid.NewGuid();
 
         public MainPage()
         {
@@ -66,7 +67,7 @@ namespace CanMonitor
 
             try
             {
-                string dataBuffer = $"({x:N2}, {y:N2}, {z:N2})";
+                string dataBuffer = $"({id};{x:N2};{y:N2};{z:N2})";
                 Message eventMessage = new Message(Encoding.UTF8.GetBytes(dataBuffer));
                 Debug.WriteLine(dataBuffer);
                 await deviceClient.SendEventAsync(eventMessage);

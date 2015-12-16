@@ -6,20 +6,22 @@ namespace CabFromHell.Xamarin
 {
 	public class App : Application
 	{
-		public App ()
+		public App (IAccellerometer accellerometer)
 		{
+
+			var label = new Label { XAlign = TextAlignment.Center, Text = "Yo" };
+
 			// The root page of your application
 			MainPage = new ContentPage {
 				Content = new StackLayout {
 					VerticalOptions = LayoutOptions.Center,
 					Children = {
-						new Label {
-							XAlign = TextAlignment.Center,
-							Text = "Welcome to Xamarin Forms!"
-						}
+						label
 					}
 				}
 			};
+
+			accellerometer.AddHandler ((x, y, z) => label.Text = $"{x}, {y}, {z}");
 		}
 
 		protected override void OnStart ()

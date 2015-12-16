@@ -14,8 +14,8 @@ namespace CabFromHell.Xamarin.iOS
 		{
 			global::Xamarin.Forms.Forms.Init ();
 
-
-			LoadApplication (new App ());
+			var accellerometer = new Accellerometer ();
+			LoadApplication (new App (accellerometer));
 
 			return base.FinishedLaunching (app, options);
 		}

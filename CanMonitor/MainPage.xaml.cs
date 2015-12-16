@@ -27,34 +27,35 @@ namespace CanMonitor
     public sealed partial class MainPage : Page
     {
         private static int MESSAGE_COUNT = 5;
-        private const string DeviceConnectionString = "<replace>";
+        private const string DeviceConnectionString = "HostName=hubtohellandback.azure-devices.net;DeviceId=CrazyCabA;SharedAccessKey=heZ9orRd7tcq7Mv5vXnlyDXMjc71Q2Xh7SPueBVSV/0=";
 
         private GIS.FEZHAT hat;
         private DispatcherTimer timer;
         private bool next;
         private int i;
+        private DeviceClient deviceClient;
 
         public MainPage()
         {
             this.InitializeComponent();
             Setup();
-
+            //Start();
         }
 
         private async void Setup()
         {
+            deviceClient = DeviceClient.CreateFromConnectionString(DeviceConnectionString, TransportType.Http1);
 
             this.hat = await GIS.FEZHAT.CreateAsync();
 
             this.timer = new DispatcherTimer();
-            this.timer.Interval = TimeSpan.FromMilliseconds(100);
+            this.timer.Interval = TimeSpan.FromMilliseconds(1000);
             this.timer.Tick += this.OnTick;
             this.timer.Start();
 
-            //var deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey("myFirstDevice", deviceKey), TransportType.Http1);
         }
 
-        private void OnTick(object sender, object e)
+        private async void OnTick(object sender, object e)
         {
             double x, y, z;
 
@@ -63,6 +64,18 @@ namespace CanMonitor
             this.TempTextBox.Text = this.hat.GetTemperature().ToString("N2");
             this.AccelTextBox.Text = $"({x:N2}, {y:N2}, {z:N2})";
             System.Diagnostics.Debug.WriteLine($"({x}, {y}, {z})");
+
+            try
+            {
+                string dataBuffer = $"({x:N2}, {y:N2}, {z:N2})";
+                Message eventMessage = new Message(Encoding.UTF8.GetBytes(dataBuffer));
+
+                await deviceClient.SendEventAsync(eventMessage);
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Can't send message because of network issues");
+            }
 
             if ((this.i++%5) == 0)
             {
@@ -74,39 +87,6 @@ namespace CanMonitor
                 this.next = !this.next;
             }
 
-        }
-
-        public async static Task Start()
-        {
-            try
-            {
-                DeviceClient deviceClient = DeviceClient.CreateFromConnectionString(DeviceConnectionString, TransportType.Http1);
-
-                await SendEvent(deviceClient);
-                await ReceiveCommands(deviceClient);
-
-                Debug.WriteLine("Exited!\n");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Error in sample: {0}", ex.Message);
-            }
-        }
-
-        static async Task SendEvent(DeviceClient deviceClient)
-        {
-            string dataBuffer;
-
-            Debug.WriteLine("Device sending {0} messages to IoTHub...\n", MESSAGE_COUNT);
-
-            for (int count = 0; count < MESSAGE_COUNT; count++)
-            {
-                dataBuffer = string.Format("Msg from UWP: {0}_{1}", count, Guid.NewGuid().ToString());
-                Message eventMessage = new Message(Encoding.UTF8.GetBytes(dataBuffer));
-                Debug.WriteLine("\t{0}> Sending message: {1}, Data: [{2}]", DateTime.Now.ToLocalTime(), count, dataBuffer);
-
-                await deviceClient.SendEventAsync(eventMessage);
-            }
         }
 
         static async Task ReceiveCommands(DeviceClient deviceClient)

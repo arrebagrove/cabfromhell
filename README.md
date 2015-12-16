@@ -10,8 +10,8 @@ CabFromHell is the working name of an application that monitors taxi drivers by 
 
 CabDriverName|sum(sqrt(x^2 + y^2 + z^2))|TimePeriodInSeconds
 
-Thomas|3.1415|5
-Ola|213.343|2
+Thomas|3.1415|5.234
+Ola|213.343|5.0243
 
 
 

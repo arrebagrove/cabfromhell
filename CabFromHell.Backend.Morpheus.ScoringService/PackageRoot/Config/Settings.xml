@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Settings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/2011/01/fabric">
-   <Section Name="ScoringServiceActorServiceReplicatorConfig">
-      <Parameter Name="ReplicatorEndpoint" Value="ScoringServiceActorServiceReplicatorEndpoint" />
+   <Section Name="CabDriverActorServiceReplicatorConfig">
+      <Parameter Name="ReplicatorEndpoint" Value="CabDriverActorServiceReplicatorEndpoint" />
    </Section>
-   <Section Name="ScoringServiceActorServiceReplicatorSecurityConfig">
+   <Section Name="CabDriverActorServiceReplicatorSecurityConfig">
       <Parameter Name="CredentialType" Value="None" />
    </Section>
-   <Section Name="ScoringServiceActorServiceLocalStoreConfig">
+   <Section Name="CabDriverActorServiceLocalStoreConfig">
       <Parameter Name="MaxAsyncCommitDelayInMilliseconds" Value="100" />
       <Parameter Name="MaxVerPages" Value="32768" />
    </Section>

@@ -1,30 +1,43 @@
 ﻿using System;
+using System.Net.Http;
 
 using Xamarin.Forms;
+using System.Threading.Tasks;
+using System.Text;
+using Autofac;
 
 namespace CabFromHell.Mobile
 {
 	public class App : Application
 	{
-		public App (IAccellerometer accellerometer)
+		public static readonly IContainer Container;
+
+		static App()
+		{
+			var builder = new ContainerBuilder ();
+			Container = builder.Build ();
+		}
+
+
+		public static void Register<TS,TI>()
+		{
+			var builder = new ContainerBuilder ();
+			builder.RegisterGeneric (typeof(TI)).As (typeof(TS));
+			builder.Update (Container);
+		}
+
+
+		public static void Register<TS>(TS implementation) where TS:class
+		{
+			var builder = new ContainerBuilder ();
+			builder.RegisterInstance (implementation).As(typeof(TS));
+			builder.Update (Container);
+		}
+
+
+		public App ()
 		{
 			MainPage = new CabFromHell.Mobile.MainPage ();
-
-
-			/*
-			var label = new Label { XAlign = TextAlignment.Center, Text = "Yo" };
-
-			// The root page of your application
-			MainPage = new ContentPage {
-				Content = new StackLayout {
-					VerticalOptions = LayoutOptions.Center,
-					Children = {
-						label
-					}
-				}
-			};
-
-			accellerometer.AddHandler ((x, y, z) => label.Text = $"{x}, {y}, {z}");*/
 		}
 
 		protected override void OnStart ()
@@ -41,6 +54,8 @@ namespace CabFromHell.Mobile
 		{
 			// Handle when your app resumes
 		}
+
+
 	}
 }
 

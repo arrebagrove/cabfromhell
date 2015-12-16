@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 using Microsoft.ServiceBus.Messaging;
 using System.Text;
+using Microsoft.ServiceFabric.Actors;
+using CabFromHell.Backend.Morpheus.ScoringService.Interfaces;
 
 namespace CabFromHell.Backend.Morpheus.IngestionService
 {
@@ -63,7 +65,7 @@ namespace CabFromHell.Backend.Morpheus.IngestionService
 
         private async Task ReceiveMessagesFromDeviceAsync(string partition, CancellationToken cancelServicePartitionReplica)
         {
-            var eventHubReceiver = eventHubClient.GetDefaultConsumerGroup().CreateReceiver(partition, DateTime.Now);
+            var eventHubReceiver = eventHubClient.GetDefaultConsumerGroup().CreateReceiver(partition, DateTime.UtcNow);
             while (!cancelServicePartitionReplica.IsCancellationRequested)
             {
                 EventData eventData = await eventHubReceiver.ReceiveAsync();
@@ -71,6 +73,14 @@ namespace CabFromHell.Backend.Morpheus.IngestionService
 
                 string data = Encoding.UTF8.GetString(eventData.GetBytes());
                 Console.WriteLine(string.Format("Message received. Partition: {0} Data: '{1}'", partition, data));
+
+                var values =  data.Split('|');
+                //Call the actor.
+
+                //Add it if its not in the dict.
+                ActorId actorId = ActorId.NewId();
+                ICabDriver cd = ActorProxy.Create<ICabDriver>(actorId, serviceName: "fabric:/CabFromHell.Backend.Morpheus/ScoringServiceActorService");
+
 
                 // Create a transaction to perform operations on data within this partition's replica.
                 using (var tx = this.StateManager.CreateTransaction())

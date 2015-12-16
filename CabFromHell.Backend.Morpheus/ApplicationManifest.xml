@@ -1,34 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="CabFromHell.Backend.MorpheusType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
    <Parameters>
-      <Parameter Name="ScoringServiceActorService_PartitionCount" DefaultValue="10" />
-      <Parameter Name="ScoringServiceActorService_MinReplicaSetSize" DefaultValue="2" />
-      <Parameter Name="ScoringServiceActorService_TargetReplicaSetSize" DefaultValue="3" />
-      <Parameter Name="IngestionService_MinReplicaSetSize" DefaultValue="2" />
-      <Parameter Name="IngestionService_PartitionCount" DefaultValue="1" />
-      <Parameter Name="IngestionService_TargetReplicaSetSize" DefaultValue="3" />
+      <Parameter Name="CabDriverActorService_PartitionCount" DefaultValue="10" />
+      <Parameter Name="CabDriverActorService_MinReplicaSetSize" DefaultValue="2" />
+      <Parameter Name="CabDriverActorService_TargetReplicaSetSize" DefaultValue="3" />
       <Parameter Name="IngestService_InstanceCount" DefaultValue="-1" />
    </Parameters>
    <ServiceManifestImport>
       <ServiceManifestRef ServiceManifestName="CabFromHell.Backend.Morpheus.ScoringServicePkg" ServiceManifestVersion="1.0.0" />
    </ServiceManifestImport>
    <ServiceManifestImport>
-      <ServiceManifestRef ServiceManifestName="CabFromHell.Backend.Morpheus.IngestionServicePkg" ServiceManifestVersion="1.0.0" />
-      <ConfigOverrides />
-   </ServiceManifestImport>
-   <ServiceManifestImport>
       <ServiceManifestRef ServiceManifestName="CabFromHell.Backend.Morpheus.IngestServicePkg" ServiceManifestVersion="1.0.0" />
       <ConfigOverrides />
    </ServiceManifestImport>
    <DefaultServices>
-      <Service Name="ScoringServiceActorService" GeneratedIdRef="232fbe45-8b84-4577-a744-4f72c9beda7b">
-         <StatefulService ServiceTypeName="ScoringServiceActorServiceType" TargetReplicaSetSize="[ScoringServiceActorService_TargetReplicaSetSize]" MinReplicaSetSize="[ScoringServiceActorService_MinReplicaSetSize]">
-            <UniformInt64Partition PartitionCount="[ScoringServiceActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
-         </StatefulService>
-      </Service>
-      <Service Name="IngestionService">
-         <StatefulService ServiceTypeName="IngestionServiceType" TargetReplicaSetSize="[IngestionService_TargetReplicaSetSize]" MinReplicaSetSize="[IngestionService_MinReplicaSetSize]">
-            <UniformInt64Partition PartitionCount="[IngestionService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      <Service Name="CabDriverActorService" GeneratedIdRef="36cc71a2-2505-4afd-926f-520924b6966c">
+         <StatefulService ServiceTypeName="CabDriverActorServiceType" TargetReplicaSetSize="[CabDriverActorService_TargetReplicaSetSize]" MinReplicaSetSize="[CabDriverActorService_MinReplicaSetSize]">
+            <UniformInt64Partition PartitionCount="[CabDriverActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
          </StatefulService>
       </Service>
       <Service Name="IngestService">

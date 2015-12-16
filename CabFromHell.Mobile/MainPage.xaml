@@ -2,7 +2,24 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="CabFromHell.Mobile.MainPage">
 	<ContentPage.Content>
 		<StackLayout VerticalOptions="Center">
-			<Label Text="Hello"></Label>
+		<!--
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="100"/>
+					<ColumnDefinition Width="100"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinition>
+					<RowDefinition Height="40"/>
+					<RowDefinition Height="40"/>
+				</Grid.RowDefinition>
+
+				<Label Grid.Column="0" Grid.Row="0" Text="Driver"/>
+
+			</Grid>-->
+			<Button Text="Send Message" 
+					Clicked="ButtonClicked"
+					HorizontalOptions="Center" 
+					VerticalOptions="CenterAndExpand"></Button>
 		</StackLayout>
 
 	</ContentPage.Content>

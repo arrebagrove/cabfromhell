@@ -13,16 +13,11 @@
                 <TextBlock Text="Light: " />
                 <TextBlock Text="Temp: " />
                 <TextBlock Text="Accel: " />
-                <TextBlock Text="Button 18: " />
-                <TextBlock Text="Button 22: " />
-                <TextBlock Text="Leds: " />
-                <TextBlock Text="Analog: " />
             </StackPanel>
             <StackPanel>
                 <TextBlock Name="LightTextBox" />
                 <TextBlock Name="TempTextBox" />
                 <TextBlock Name="AccelTextBox" />
-                <TextBlock Name="LedsTextBox" />
             </StackPanel>
         </StackPanel>
     </Grid>

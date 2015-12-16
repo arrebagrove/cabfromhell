@@ -49,7 +49,7 @@ namespace CanMonitor
             this.hat = await GIS.FEZHAT.CreateAsync();
 
             this.timer = new DispatcherTimer();
-            this.timer.Interval = TimeSpan.FromMilliseconds(1000);
+            this.timer.Interval = TimeSpan.FromMilliseconds(100);
             this.timer.Tick += this.OnTick;
             this.timer.Start();
 
@@ -63,24 +63,20 @@ namespace CanMonitor
             this.LightTextBox.Text = this.hat.GetLightLevel().ToString("P2");
             this.TempTextBox.Text = this.hat.GetTemperature().ToString("N2");
             this.AccelTextBox.Text = $"({x:N2}, {y:N2}, {z:N2})";
-            System.Diagnostics.Debug.WriteLine($"({x}, {y}, {z})");
 
             try
             {
                 string dataBuffer = $"({x:N2}, {y:N2}, {z:N2})";
                 Message eventMessage = new Message(Encoding.UTF8.GetBytes(dataBuffer));
-
+                Debug.WriteLine(dataBuffer);
                 await deviceClient.SendEventAsync(eventMessage);
             }
             catch (Exception)
             {
                 Debug.WriteLine("Can't send message because of network issues");
             }
-
             if ((this.i++%5) == 0)
             {
-                this.LedsTextBox.Text = this.next.ToString();
-                
                 this.hat.D2.Color = this.next ? GIS.FEZHAT.Color.Blue : GIS.FEZHAT.Color.Red;
                 this.hat.D3.Color = this.next ? GIS.FEZHAT.Color.Red : GIS.FEZHAT.Color.Blue;
                 

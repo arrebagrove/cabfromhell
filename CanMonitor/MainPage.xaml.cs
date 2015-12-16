@@ -75,6 +75,9 @@ namespace CanMonitor
                 try
                 {
                     string dataBuffer = $"Boogieman|{res:N4}|{counter / 10}";
+                    _x = _y = _z = 0;
+                    counter = 0;
+
                     Message eventMessage = new Message(Encoding.UTF8.GetBytes(dataBuffer));
                     Debug.WriteLine(dataBuffer);
                     await deviceClient.SendEventAsync(eventMessage);
@@ -90,8 +93,6 @@ namespace CanMonitor
 
                     this.next = !this.next;
                 }
-                _x = _y = _z = 0;
-                counter = 0;
             }
             counter++;
         }

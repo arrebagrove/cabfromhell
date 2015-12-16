@@ -4,10 +4,17 @@
       <Parameter Name="ScoringServiceActorService_PartitionCount" DefaultValue="10" />
       <Parameter Name="ScoringServiceActorService_MinReplicaSetSize" DefaultValue="2" />
       <Parameter Name="ScoringServiceActorService_TargetReplicaSetSize" DefaultValue="3" />
+      <Parameter Name="IngestionService_MinReplicaSetSize" DefaultValue="2" />
+      <Parameter Name="IngestionService_PartitionCount" DefaultValue="1" />
+      <Parameter Name="IngestionService_TargetReplicaSetSize" DefaultValue="3" />
       <Parameter Name="IngestService_InstanceCount" DefaultValue="-1" />
    </Parameters>
    <ServiceManifestImport>
       <ServiceManifestRef ServiceManifestName="CabFromHell.Backend.Morpheus.ScoringServicePkg" ServiceManifestVersion="1.0.0" />
+   </ServiceManifestImport>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="CabFromHell.Backend.Morpheus.IngestionServicePkg" ServiceManifestVersion="1.0.0" />
+      <ConfigOverrides />
    </ServiceManifestImport>
    <ServiceManifestImport>
       <ServiceManifestRef ServiceManifestName="CabFromHell.Backend.Morpheus.IngestServicePkg" ServiceManifestVersion="1.0.0" />
@@ -17,6 +24,11 @@
       <Service Name="ScoringServiceActorService" GeneratedIdRef="232fbe45-8b84-4577-a744-4f72c9beda7b">
          <StatefulService ServiceTypeName="ScoringServiceActorServiceType" TargetReplicaSetSize="[ScoringServiceActorService_TargetReplicaSetSize]" MinReplicaSetSize="[ScoringServiceActorService_MinReplicaSetSize]">
             <UniformInt64Partition PartitionCount="[ScoringServiceActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+         </StatefulService>
+      </Service>
+      <Service Name="IngestionService">
+         <StatefulService ServiceTypeName="IngestionServiceType" TargetReplicaSetSize="[IngestionService_TargetReplicaSetSize]" MinReplicaSetSize="[IngestionService_MinReplicaSetSize]">
+            <UniformInt64Partition PartitionCount="[IngestionService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
          </StatefulService>
       </Service>
       <Service Name="IngestService">

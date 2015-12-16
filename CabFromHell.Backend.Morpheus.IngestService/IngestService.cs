@@ -36,6 +36,10 @@ namespace CabFromHell.Backend.Morpheus.IngestService
             while (!cancelServiceInstance.IsCancellationRequested)
             {
 
+                //
+
+                //  ActorProxy.
+
                 // Log what the service is doing
                 ServiceEventSource.Current.ServiceMessage(this, "Working-{0}", iterations++);
 

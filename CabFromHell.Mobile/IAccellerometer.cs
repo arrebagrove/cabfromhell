@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CabFromHell.Xamarin
+namespace CabFromHell.Mobile
 {
 	public delegate void AccellerometerUpdate(double x, double y, double z);
 

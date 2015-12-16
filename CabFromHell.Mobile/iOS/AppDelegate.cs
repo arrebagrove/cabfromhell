@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace CabFromHell.Xamarin.iOS
+namespace CabFromHell.Mobile.iOS
 {
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate

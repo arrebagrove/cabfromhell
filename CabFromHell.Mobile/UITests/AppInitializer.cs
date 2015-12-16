@@ -4,7 +4,7 @@ using System.Linq;
 using Xamarin.UITest;
 using Xamarin.UITest.Queries;
 
-namespace CabFromHell.Xamarin.UITests
+namespace CabFromHell.Mobile.UITests
 {
 	public class AppInitializer
 	{

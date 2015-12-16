@@ -1,23 +1,21 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="CabFromHell.Mobile.MainPage">
 	<ContentPage.Content>
-		<StackLayout VerticalOptions="Center">
-		<!--
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="100"/>
-					<ColumnDefinition Width="100"/>
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinition>
-					<RowDefinition Height="40"/>
-					<RowDefinition Height="40"/>
-				</Grid.RowDefinition>
+		<StackLayout VerticalOptions="Center" Padding="16,16,16,16">
 
-				<Label Grid.Column="0" Grid.Row="0" Text="Driver"/>
+			<Label x:Name="driverLabel" Text="Enter driver name"/>
+			<Entry x:Name="driverEntry" Placeholder="Driver"/>
 
-			</Grid>-->
-			<Button Text="Send Message" 
-					Clicked="ButtonClicked"
+			<Label x:Name="tripTime" Text="" HorizontalOptions="Center"/>
+
+			<Button x:Name="startButton"
+					Text="Start" 
+					Clicked="StartClicked"
+					HorizontalOptions="Center" 
+					VerticalOptions="CenterAndExpand"></Button>
+			<Button x:Name="stopButton"
+					Text="Stop" 
+					Clicked="StopClicked"
 					HorizontalOptions="Center" 
 					VerticalOptions="CenterAndExpand"></Button>
 		</StackLayout>

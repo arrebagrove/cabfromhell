@@ -19,7 +19,7 @@ namespace CabFromHell.Mobile.Droid
 
 			global::Xamarin.Forms.Forms.Init (this, bundle);
 
-			LoadApplication (new App (null));
+			LoadApplication (new App ());
 		}
 	}
 }

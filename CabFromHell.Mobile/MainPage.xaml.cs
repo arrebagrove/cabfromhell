@@ -11,6 +11,13 @@ namespace CabFromHell.Mobile
 		{
 			InitializeComponent ();
 		}
+
+
+		void ButtonClicked(object sender, EventArgs e) 
+		{
+			var i = 0;
+			i++;
+		}
 	}
 }
 

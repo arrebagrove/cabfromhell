@@ -2,13 +2,16 @@
 
 using Xamarin.Forms;
 
-namespace CabFromHell.Xamarin
+namespace CabFromHell.Mobile
 {
 	public class App : Application
 	{
 		public App (IAccellerometer accellerometer)
 		{
+			MainPage = new CabFromHell.Mobile.MainPage ();
 
+
+			/*
 			var label = new Label { XAlign = TextAlignment.Center, Text = "Yo" };
 
 			// The root page of your application
@@ -21,7 +24,7 @@ namespace CabFromHell.Xamarin
 				}
 			};
 
-			accellerometer.AddHandler ((x, y, z) => label.Text = $"{x}, {y}, {z}");
+			accellerometer.AddHandler ((x, y, z) => label.Text = $"{x}, {y}, {z}");*/
 		}
 
 		protected override void OnStart ()

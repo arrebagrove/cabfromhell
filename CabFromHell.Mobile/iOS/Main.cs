@@ -6,7 +6,7 @@ using Foundation;
 using UIKit;
 using CoreMotion;
 
-namespace CabFromHell.Xamarin.iOS
+namespace CabFromHell.Mobile.iOS
 {
 	public class Application
 	{

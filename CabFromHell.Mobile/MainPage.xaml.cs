@@ -33,8 +33,6 @@ namespace CabFromHell.Mobile
 
 			var accellerometer = App.Container.Resolve<IAccellerometer> ();
 
-			SendEntry ("Blah", 42, 5, 10);
-
 			_lastSend = DateTime.Now;
 
 			startButton.IsVisible = true;
@@ -59,6 +57,7 @@ namespace CabFromHell.Mobile
 				var now = DateTime.Now;
 				var delta = now.Subtract(_lastSend);
 				if( delta.TotalSeconds >= 5 ) {
+					_lastSend = now;
 					var aggregatedLength = _aggregatedLength;
 					var count = _count;
 					_aggregatedLength = 0;
@@ -66,7 +65,7 @@ namespace CabFromHell.Mobile
 
 					await SendEntry(driverEntry.Text, aggregatedLength, delta.TotalSeconds, count);
 
-					_lastSend = now;
+
 				}
 			});
 		}

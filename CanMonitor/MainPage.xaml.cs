@@ -26,30 +26,38 @@ namespace CanMonitor
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        double _aggregatedLength;
+        // IOT Hub part
         private const string DeviceConnectionString = "HostName=hubtohellandback.azure-devices.net;DeviceId=CrazyCabA;SharedAccessKey=heZ9orRd7tcq7Mv5vXnlyDXMjc71Q2Xh7SPueBVSV/0=";
+        private DeviceClient deviceClient;
 
+        // Sensor access part
         private GIS.FEZHAT hat;
         private DispatcherTimer timer;
         private bool next;
-        private int i;
-        private DeviceClient deviceClient;
+
+        // Algorithm part
         private double _x, _y, _z;
+        double _aggregatedLength;
         private int counter;
 
         public MainPage()
         {
             this.InitializeComponent();
             Setup();
-            //Start();
         }
 
+        /// <summary>
+        /// Setup for IOT Hub connection and sensor access
+        /// </summary>
         private async void Setup()
         {
+            // IOT Hub
             deviceClient = DeviceClient.CreateFromConnectionString(DeviceConnectionString, TransportType.Http1);
 
+            // Sensors
             this.hat = await GIS.FEZHAT.CreateAsync();
 
+            // Timer to read sensors
             this.timer = new DispatcherTimer();
             this.timer.Interval = TimeSpan.FromMilliseconds(100);
             this.timer.Tick += this.OnTick;
@@ -59,6 +67,7 @@ namespace CanMonitor
 
         private async void OnTick(object sender, object e)
         {
+            // Get acceleration and calculate delta for previous run
             double x, y, z, deltaX, deltaY, deltaZ;
             this.hat.GetAcceleration(out x, out y, out z);
             deltaX = x - _x;
@@ -71,6 +80,7 @@ namespace CanMonitor
 
             _aggregatedLength += Math.Sqrt((deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ));
 
+            // Send every 5 seconds data to IOT Hub
             if (counter >= 50)
             {
                 try
@@ -87,17 +97,20 @@ namespace CanMonitor
                 {
                     Debug.WriteLine("Can't send message because of network issues");
                 }
-                if ((this.i++%5) == 0)
-                {
-                    this.hat.D2.Color = this.next ? GIS.FEZHAT.Color.Blue : GIS.FEZHAT.Color.Red;
-                    this.hat.D3.Color = this.next ? GIS.FEZHAT.Color.Red : GIS.FEZHAT.Color.Blue;
+                // Just for fun, do police car lights to Fezhat leds
+                this.hat.D2.Color = this.next ? GIS.FEZHAT.Color.Blue : GIS.FEZHAT.Color.Red;
+                this.hat.D3.Color = this.next ? GIS.FEZHAT.Color.Red : GIS.FEZHAT.Color.Blue;
 
-                    this.next = !this.next;
-                }
+                this.next = !this.next;
             }
             counter++;
         }
 
+        /// <summary>
+        /// Not used for now, but if there's need for receiving data from IOT HUB this is needed
+        /// </summary>
+        /// <param name="deviceClient"></param>
+        /// <returns></returns>
         static async Task ReceiveCommands(DeviceClient deviceClient)
         {
             Debug.WriteLine("\nDevice waiting for commands from IoTHub...\n");

@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "Backendv2", "Backendv2\Backendv2.sfproj", "{07ED98C4-84E6-4B95-B614-962EC9522CEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CabDriverActorService", "CabDriverActorService\CabDriverActorService.csproj", "{9384DEE1-612F-4E18-A239-B5FDE45E3D9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CabDriverActorService.Interfaces", "CabDriverActorService.Interfaces\CabDriverActorService.Interfaces.csproj", "{7984BFBB-2923-4157-97E1-FEA04F9F7B47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IngestionService", "IngestionService\IngestionService.csproj", "{C814F8F0-2FC6-4725-885C-D5BCAE036760}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07ED98C4-84E6-4B95-B614-962EC9522CEF}.Debug|x64.ActiveCfg = Debug|x64
+		{07ED98C4-84E6-4B95-B614-962EC9522CEF}.Debug|x64.Build.0 = Debug|x64
+		{07ED98C4-84E6-4B95-B614-962EC9522CEF}.Debug|x64.Deploy.0 = Debug|x64
+		{07ED98C4-84E6-4B95-B614-962EC9522CEF}.Release|x64.ActiveCfg = Release|x64
+		{07ED98C4-84E6-4B95-B614-962EC9522CEF}.Release|x64.Build.0 = Release|x64
+		{07ED98C4-84E6-4B95-B614-962EC9522CEF}.Release|x64.Deploy.0 = Release|x64
+		{9384DEE1-612F-4E18-A239-B5FDE45E3D9B}.Debug|x64.ActiveCfg = Debug|x64
+		{9384DEE1-612F-4E18-A239-B5FDE45E3D9B}.Debug|x64.Build.0 = Debug|x64
+		{9384DEE1-612F-4E18-A239-B5FDE45E3D9B}.Release|x64.ActiveCfg = Release|x64
+		{9384DEE1-612F-4E18-A239-B5FDE45E3D9B}.Release|x64.Build.0 = Release|x64
+		{7984BFBB-2923-4157-97E1-FEA04F9F7B47}.Debug|x64.ActiveCfg = Debug|x64
+		{7984BFBB-2923-4157-97E1-FEA04F9F7B47}.Debug|x64.Build.0 = Debug|x64
+		{7984BFBB-2923-4157-97E1-FEA04F9F7B47}.Release|x64.ActiveCfg = Release|x64
+		{7984BFBB-2923-4157-97E1-FEA04F9F7B47}.Release|x64.Build.0 = Release|x64
+		{C814F8F0-2FC6-4725-885C-D5BCAE036760}.Debug|x64.ActiveCfg = Debug|x64
+		{C814F8F0-2FC6-4725-885C-D5BCAE036760}.Debug|x64.Build.0 = Debug|x64
+		{C814F8F0-2FC6-4725-885C-D5BCAE036760}.Release|x64.ActiveCfg = Release|x64
+		{C814F8F0-2FC6-4725-885C-D5BCAE036760}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

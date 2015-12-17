@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="Backendv2Type" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+   <Parameters>
+      <Parameter Name="CabDriverActorServiceActorService_PartitionCount" DefaultValue="10" />
+      <Parameter Name="CabDriverActorServiceActorService_MinReplicaSetSize" DefaultValue="2" />
+      <Parameter Name="CabDriverActorServiceActorService_TargetReplicaSetSize" DefaultValue="3" />
+      <Parameter Name="IngestionService_MinReplicaSetSize" DefaultValue="2" />
+      <Parameter Name="IngestionService_PartitionCount" DefaultValue="1" />
+      <Parameter Name="IngestionService_TargetReplicaSetSize" DefaultValue="3" />
+   </Parameters>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="CabDriverActorServicePkg" ServiceManifestVersion="1.0.0" />
+   </ServiceManifestImport>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="IngestionServicePkg" ServiceManifestVersion="1.0.0" />
+      <ConfigOverrides />
+   </ServiceManifestImport>
+   <DefaultServices>
+      <Service Name="CabDriverActorServiceActorService" GeneratedIdRef="e75d9c66-51e1-4a6a-8d50-6dfeba613881">
+         <StatefulService ServiceTypeName="CabDriverActorServiceActorServiceType" TargetReplicaSetSize="[CabDriverActorServiceActorService_TargetReplicaSetSize]" MinReplicaSetSize="[CabDriverActorServiceActorService_MinReplicaSetSize]">
+            <UniformInt64Partition PartitionCount="[CabDriverActorServiceActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+         </StatefulService>
+      </Service>
+      <Service Name="IngestionService">
+         <StatefulService ServiceTypeName="IngestionServiceType" TargetReplicaSetSize="[IngestionService_TargetReplicaSetSize]" MinReplicaSetSize="[IngestionService_MinReplicaSetSize]">
+            <UniformInt64Partition PartitionCount="[IngestionService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+         </StatefulService>
+      </Service>
+   </DefaultServices>
+</ApplicationManifest>

@@ -13,8 +13,11 @@ namespace CabDriverActorService.Interfaces
     /// </summary>
     public interface ICabDriverActorService : IActor
     {
-        Task<int> GetCountAsync();
-
-        Task SetCountAsync(int count);
+        Task SetNameAsync(string name);
+        Task<string> GetNameAsync();
+        Task<double> GetScoreAsync();
+        Task<long> GetScoreUpdatesAsync();
+        Task<DateTime> GetLastUpdatedAsync();
+        Task UpdateScoreAsync(DateTime arrivalDate, double forceValue, int ammountOfMeasurements, double timeInterval);
     }
 }

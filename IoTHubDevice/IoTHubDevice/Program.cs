@@ -54,18 +54,17 @@ namespace IoTHubDevice
 
         private static async void SendDeviceToCloudMessagesAsync()
         {
-            double avgWindSpeed = 10; // m/s
             Random rand = new Random();
 
             while (true)
             {
                 var taxiDriver = "Ola Olsson";
-                var forceVectorLength = 3.1415d;
-                var measurements = 50;
+                var forceVectorLength = rand.NextDouble() * 10;
                 var timeInterval = 5.12d;
+                var measurements = 50;
 
                 var msg = string.Format(CultureInfo.InvariantCulture,
-                    "{0}|{1}|{2}|{3}", taxiDriver, forceVectorLength, measurements, timeInterval);
+                    "{0}|{1}|{2}|{3}", taxiDriver, forceVectorLength, timeInterval, measurements);
 
                 var message = new Microsoft.Azure.Devices.Client.Message(Encoding.ASCII.GetBytes(msg));
 

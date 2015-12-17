@@ -15,6 +15,10 @@ namespace IoTHubDevice
 {
     class Program
     {
+        static string eventHubName = "cabdriverscores";
+        static string serviceBusconnectionString =
+            "Endpoint=sb://cabfromhell.servicebus.windows.net/;SharedAccessKeyName=hellcluster;SharedAccessKey=YVlPE3nu5UneW/5fWvJ+CjywrYBGz+C886QdughEMa4=";
+
         static RegistryManager registryManager;
         static string connectionString = "HostName=hubtohellandback.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=xL2vntD8upPVocC6Cmayd510RtnVzUfjdf88vcjNbJE=";
 
@@ -24,17 +28,22 @@ namespace IoTHubDevice
 
         static void Main(string[] args)
         {
+            // SERVICE BUS TEST
+
+            SendScoreToEventHub("Ola Olsson", 3.14, DateTime.UtcNow);
+            Console.ReadLine();
+
             //// REGISTER
             //registryManager = RegistryManager.CreateFromConnectionString(connectionString);
             //AddDeviceAsync().Wait();
             //Console.ReadLine();
 
             // SEND
-            Console.WriteLine("Simulated device\n");
-            deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey("myFirstDevice", deviceKey), Microsoft.Azure.Devices.Client.TransportType.Http1);
+            //Console.WriteLine("Simulated device\n");
+            //deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey("myFirstDevice", deviceKey), Microsoft.Azure.Devices.Client.TransportType.Http1);
 
-            SendDeviceToCloudMessagesAsync();
-            Console.ReadLine();
+            //SendDeviceToCloudMessagesAsync();
+            //Console.ReadLine();
         }
 
         private async static Task AddDeviceAsync()
@@ -72,6 +81,35 @@ namespace IoTHubDevice
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, msg);
 
                 Thread.Sleep(1000);
+            }
+        }
+
+        private static async void ReadMessageFromCloudAsync()
+        {
+
+        }
+
+        private static void SendScoreToEventHub(string name, double score, DateTime lastUpdated)
+        {
+            var msg = string.Format(CultureInfo.InvariantCulture, "{0}|{1}|{2}", name, score, lastUpdated);
+
+            var eventHubClient = EventHubClient.CreateFromConnectionString(serviceBusconnectionString, eventHubName);
+
+            try
+            {
+                //ActorEventSource.Current.ActorMessage(this, $"Sending message to EventHub: {msg}");
+
+                Console.WriteLine("Sending message");
+
+                eventHubClient.Send(new EventData(Encoding.UTF8.GetBytes(msg)));
+
+                Console.WriteLine("Message sent!");
+
+                //ActorEventSource.Current.ActorMessage(this, "Message sent to EventHub");
+            }
+            catch (Exception exception)
+            {
+                //ActorEventSource.Current.ActorMessage(this, "ERROR sending to EventHub: {0}", exception.Message);
             }
         }
 

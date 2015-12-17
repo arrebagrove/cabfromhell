@@ -13,7 +13,7 @@ namespace IngestionService
         private static void Main()
         {
             try
-            {
+            { 
                 // Creating a FabricRuntime connects this host process to the Service Fabric runtime.
                 using (FabricRuntime fabricRuntime = FabricRuntime.Create())
                 {

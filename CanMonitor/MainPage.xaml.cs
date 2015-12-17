@@ -26,7 +26,7 @@ namespace CanMonitor
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private static int MESSAGE_COUNT = 5;
+        double _aggregatedLength;
         private const string DeviceConnectionString = "HostName=hubtohellandback.azure-devices.net;DeviceId=CrazyCabA;SharedAccessKey=heZ9orRd7tcq7Mv5vXnlyDXMjc71Q2Xh7SPueBVSV/0=";
 
         private GIS.FEZHAT hat;
@@ -59,23 +59,24 @@ namespace CanMonitor
 
         private async void OnTick(object sender, object e)
         {
-            double x, y, z;
+            double x, y, z, deltaX, deltaY, deltaZ;
             this.hat.GetAcceleration(out x, out y, out z);
-            _x = _x + x;
-            _y = _y + y;
-            _z = _z + z;
+            deltaX = x - _x;
+            deltaY = y - _y;
+            deltaZ = z + _z;
+
+            _x = x;
+            _y = y;
+            _z = z;
+
+            _aggregatedLength += Math.Sqrt((deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ));
 
             if (counter >= 50)
             {
-                _x = Math.Pow(_x, 2);
-                _y = Math.Pow(_y, 2);
-                _z = Math.Pow(_z, 2);
-                double res = Math.Sqrt(_x + _y + _z);
-
                 try
                 {
-                    string dataBuffer = $"Boogieman|{res:N4}|{counter / 10}";
-                    _x = _y = _z = 0;
+                    string dataBuffer = $"Boogieman|{_aggregatedLength:N4}|{counter / 10}|{counter}";
+                    _aggregatedLength = 0;
                     counter = 0;
 
                     Message eventMessage = new Message(Encoding.UTF8.GetBytes(dataBuffer));

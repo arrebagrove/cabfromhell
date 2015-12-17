@@ -28,17 +28,42 @@ namespace IoTHubDevice
 
         static void Main(string[] args)
         {
-            // SERVICE BUS TEST
+            Console.WriteLine("1. Register Device");
+            Console.WriteLine("2. Send Fake Device Data");
+            Console.WriteLine("3. Send Fake Data to Output EventHub");
 
-            SendScoreToEventHub("Ola Olsson", 3.14, DateTime.UtcNow);
-            Console.ReadLine();
+            var choice = Console.ReadLine();
 
-            //// REGISTER
+            if (choice == "1")
+            {
+                registryManager = RegistryManager.CreateFromConnectionString(connectionString);
+                AddDeviceAsync().Wait();
+                Console.ReadLine();
+            }
+            else if (choice == "2")
+            {
+                Console.WriteLine("Simulated device\n");
+                deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey("myFirstDevice", deviceKey), Microsoft.Azure.Devices.Client.TransportType.Http1);
+
+                SendDeviceToCloudMessagesAsync();
+                Console.ReadLine();
+            }
+            else
+            {
+                SendScoreToEventHub();
+            }
+
+            //// SERVICE BUS TEST
+            //SendScoreToEventHub();
+
+            ////Console.ReadLine();
+
+            ////// REGISTER
             //registryManager = RegistryManager.CreateFromConnectionString(connectionString);
             //AddDeviceAsync().Wait();
             //Console.ReadLine();
 
-            // SEND
+            ////// SEND
             //Console.WriteLine("Simulated device\n");
             //deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey("myFirstDevice", deviceKey), Microsoft.Azure.Devices.Client.TransportType.Http1);
 
@@ -84,32 +109,34 @@ namespace IoTHubDevice
             }
         }
 
-        private static async void ReadMessageFromCloudAsync()
+        private static void SendScoreToEventHub()
         {
-
-        }
-
-        private static void SendScoreToEventHub(string name, double score, DateTime lastUpdated)
-        {
-            var msg = string.Format(CultureInfo.InvariantCulture, "{0}|{1}|{2}", name, score, lastUpdated);
-
-            var eventHubClient = EventHubClient.CreateFromConnectionString(serviceBusconnectionString, eventHubName);
-
-            try
+            var rand = new Random();
+            var names = new[] { "Kristofer", "Valery", "Einar", "Jani" };
+            while (true)
             {
-                //ActorEventSource.Current.ActorMessage(this, $"Sending message to EventHub: {msg}");
+                var name = names[rand.Next(names.Length)];
+                var score = rand.NextDouble() * 5;
+                var lastUpdated = DateTime.UtcNow;
 
-                Console.WriteLine("Sending message");
+                var msg = string.Format(CultureInfo.InvariantCulture, "{{ 'name': '{0}', 'score': {1}, 'lastUpdated': '{2}' }}", name, score, lastUpdated);
 
-                eventHubClient.Send(new EventData(Encoding.UTF8.GetBytes(msg)));
+                Console.WriteLine(msg);
 
-                Console.WriteLine("Message sent!");
+                var eventHubClient = EventHubClient.CreateFromConnectionString(serviceBusconnectionString, eventHubName);
 
-                //ActorEventSource.Current.ActorMessage(this, "Message sent to EventHub");
-            }
-            catch (Exception exception)
-            {
-                //ActorEventSource.Current.ActorMessage(this, "ERROR sending to EventHub: {0}", exception.Message);
+                try
+                {
+                    //ActorEventSource.Current.ActorMessage(this, $"Sending message to EventHub: {msg}");
+
+                    eventHubClient.Send(new EventData(Encoding.UTF8.GetBytes(msg)));
+
+                    //ActorEventSource.Current.ActorMessage(this, "Message sent to EventHub");
+                }
+                catch (Exception exception)
+                {
+                    //ActorEventSource.Current.ActorMessage(this, "ERROR sending to EventHub: {0}", exception.Message);
+                }
             }
         }
 

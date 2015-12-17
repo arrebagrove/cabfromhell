@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -79,10 +80,10 @@ namespace CanMonitor
             _z = z;
 
             _aggregatedLength += Math.Sqrt((deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ));
-
             // Send every 5 seconds data to IOT Hub
             if (counter >= 50)
             {
+                AccelerationText.Text = _aggregatedLength.ToString(CultureInfo.InvariantCulture);
                 try
                 {
                     string dataBuffer = $"Boogieman|{_aggregatedLength:N4}|{counter / 10}|{counter}";

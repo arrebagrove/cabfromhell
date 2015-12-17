@@ -7,18 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel Orientation="Horizontal" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <StackPanel Width="75">
-                <TextBlock Text="Light: " />
-                <TextBlock Text="Temp: " />
-                <TextBlock Text="Accel: " />
-            </StackPanel>
-            <StackPanel>
-                <TextBlock Name="LightTextBox" />
-                <TextBlock Name="TempTextBox" />
-                <TextBlock Name="AccelTextBox" />
-            </StackPanel>
-        </StackPanel>
+    <Grid Background="Black">
+        <TextBlock x:Name="AccelerationText" Foreground="Wheat" TextAlignment="Center" Text="0" FontSize="48" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,288" Width="340" />
     </Grid>
 </Page>

@@ -98,13 +98,15 @@ namespace CanMonitor
                 {
                     Debug.WriteLine("Can't send message because of network issues");
                 }
-                // Just for fun, do police car lights to Fezhat leds
-                this.hat.D2.Color = this.next ? GIS.FEZHAT.Color.Blue : GIS.FEZHAT.Color.Red;
-                this.hat.D3.Color = this.next ? GIS.FEZHAT.Color.Red : GIS.FEZHAT.Color.Blue;
 
-                this.next = !this.next;
             }
             counter++;
+
+            // Just for fun, do police car lights to Fezhat leds
+            this.hat.D2.Color = this.next ? GIS.FEZHAT.Color.Blue : GIS.FEZHAT.Color.Red;
+            this.hat.D3.Color = this.next ? GIS.FEZHAT.Color.Red : GIS.FEZHAT.Color.Blue;
+
+            this.next = !this.next;
         }
 
         /// <summary>

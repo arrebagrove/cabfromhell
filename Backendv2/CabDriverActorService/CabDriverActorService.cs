@@ -19,8 +19,9 @@ namespace CabDriverActorService
     /// </remarks>
     internal class CabDriverActorService : StatefulActor<CabDriverActorService.ActorState>, ICabDriverActorService
     {
-        static string eventHubName = "cabfromhell";
-        static string connectionString = "Endpoint=sb://cabfromhell.servicebus.windows.net/;SharedAccessKeyName=hellcluster;SharedAccessKey=YVlPE3nu5UneW/5fWvJ+CjywrYBGz+C886QdughEMa4=";
+        static string eventHubName = "cabdriverscores";
+        static string connectionString =
+            "Endpoint=sb://cabfromhell.servicebus.windows.net/;SharedAccessKeyName=hellcluster;SharedAccessKey=YVlPE3nu5UneW/5fWvJ+CjywrYBGz+C886QdughEMa4=";
 
         /// <summary>
         /// This class contains each actor's replicated state.

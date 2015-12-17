@@ -54,8 +54,9 @@ namespace CanMonitor
             // IOT Hub
             deviceClient = DeviceClient.CreateFromConnectionString(DeviceConnectionString, TransportType.Http1);
 
-            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Iot")
+            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.IoT")
             {
+                driverText.Text = "Boogieman";
                 // Sensors
                 try
                 {
@@ -73,6 +74,7 @@ namespace CanMonitor
             }
             if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
             {
+                driverText.Text = "Smith";
                 _accelerometer = Accelerometer.GetDefault();
 
                 if (_accelerometer != null)

@@ -55,7 +55,7 @@ namespace CabFromHell.Backend.Morpheus.IngestionService
 
                 foreach (string partition in d2cPartitions)
                 {
-                    ReceiveMessagesFromDeviceAsync(partition, cancelServicePartitionReplica);
+                    await ReceiveMessagesFromDeviceAsync(partition, cancelServicePartitionReplica);
                 }
 
                 // Pause for 1 second before continue processing.

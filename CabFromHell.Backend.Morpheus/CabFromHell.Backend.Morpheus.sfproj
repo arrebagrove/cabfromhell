@@ -15,7 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CabFromHell.Backend.Morpheus.IngestionService\CabFromHell.Backend.Morpheus.IngestionService.csproj" />
-    <ProjectReference Include="..\CabFromHell.Backend.Morpheus.IngestService\CabFromHell.Backend.Morpheus.IngestService.csproj" />
     <ProjectReference Include="..\CabFromHell.Backend.Morpheus.ScoringService\CabFromHell.Backend.Morpheus.ScoringService.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Service Fabric Tools\Microsoft.VisualStudio.Azure.Fabric.ApplicationProject.targets" />

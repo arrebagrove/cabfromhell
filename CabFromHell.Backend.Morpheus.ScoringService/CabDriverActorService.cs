@@ -17,7 +17,7 @@ namespace CabFromHell.Backend.Morpheus.ScoringService
     /// The IProjName  interface (in a separate DLL that client code can
     /// reference) defines the operations exposed by ProjName objects.
     /// </remarks>
-    internal class CabDriver : StatefulActor<CabDriver.CabDriverState>, ICabDriver
+    internal class CabDriverActorService : StatefulActor<CabDriverActorService.CabDriverState>, ICabDriver
     {
         static string eventHubName = "cabfromhell";
         static string connectionString = "Endpoint=sb://cabfromhell.servicebus.windows.net/;SharedAccessKeyName=hellcluster;SharedAccessKey=YVlPE3nu5UneW/5fWvJ+CjywrYBGz+C886QdughEMa4=";

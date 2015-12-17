@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="CabFromHell.Backend.Morpheus.ScoringServicePkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
    <ServiceTypes>
-      <StatefulServiceType ServiceTypeName="ScoringServiceActorServiceType" HasPersistedState="true">
+      <StatefulServiceType ServiceTypeName="CabDriverActorServiceActorServiceType" HasPersistedState="true">
          <Extensions>
-            <Extension Name="__GeneratedServiceType__" GeneratedId="232fbe45-8b84-4577-a744-4f72c9beda7b">
+            <Extension Name="__GeneratedServiceType__" GeneratedId="7f946285-de4d-476c-801e-c6eae5384dca">
                <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
-                  <DefaultService Name="ScoringServiceActorService" />
-                  <ServiceEndpoint Name="ScoringServiceActorServiceEndpoint" />
-                  <ReplicatorEndpoint Name="ScoringServiceActorServiceReplicatorEndpoint" />
-                  <ReplicatorConfigSection Name="ScoringServiceActorServiceReplicatorConfig" />
-                  <ReplicatorSecurityConfigSection Name="ScoringServiceActorServiceReplicatorSecurityConfig" />
-                  <StoreConfigSection Name="ScoringServiceActorServiceLocalStoreConfig" />
+                  <DefaultService Name="CabDriverActorService" />
+                  <ServiceEndpoint Name="CabDriverActorServiceActorServiceEndpoint" />
+                  <ReplicatorEndpoint Name="CabDriverActorServiceActorServiceReplicatorEndpoint" />
+                  <ReplicatorConfigSection Name="CabDriverActorServiceActorServiceReplicatorConfig" />
+                  <ReplicatorSecurityConfigSection Name="CabDriverActorServiceActorServiceReplicatorSecurityConfig" />
+                  <StoreConfigSection Name="CabDriverActorServiceActorServiceLocalStoreConfig" />
                </GeneratedNames>
             </Extension>
          </Extensions>
@@ -26,8 +26,8 @@
    <ConfigPackage Name="Config" Version="1.0.0" />
    <Resources>
       <Endpoints>
-         <Endpoint Name="ScoringServiceActorServiceEndpoint" />
-         <Endpoint Name="ScoringServiceActorServiceReplicatorEndpoint" />
+         <Endpoint Name="CabDriverActorServiceActorServiceEndpoint" />
+         <Endpoint Name="CabDriverActorServiceActorServiceReplicatorEndpoint" />
       </Endpoints>
    </Resources>
 </ServiceManifest>

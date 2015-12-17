@@ -8,6 +8,7 @@
     mc:Ignorable="d">
 
     <Grid Background="Black">
+        <TextBlock x:Name="driverText" Width="300" VerticalAlignment="Top" FontSize="24" Foreground="Wheat"/>
         <TextBlock x:Name="AccelerationText" Foreground="Wheat" TextAlignment="Center" Text="0" FontSize="48" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,288" Width="340" />
     </Grid>
 </Page>

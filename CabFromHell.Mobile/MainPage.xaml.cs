@@ -137,6 +137,23 @@ namespace CabFromHell.Mobile
 		async Task SendEntry(string source, double length, double totalSeconds, int count)
 		{
 			var buffer = $"{source}|{length:N4}|{totalSeconds:N4}|{count}";
+
+			var httpClient = new HttpClient 
+			{
+				
+				BaseAddress = new Uri("http://cabfromhellproxy.azurewebsites.net")
+			};
+			var action = $"api/cab?point={buffer}";
+
+			var content = new StringContent(buffer, Encoding.UTF8, "application/json");
+			var response = await httpClient.PostAsync(action, content);
+			var result = await response.Content.ReadAsStringAsync();
+			result = result;
+
+			var i = 0;
+			i++;
+
+			#if(false)
 			//var buffer = $"{source}|{x:N2}|{y:N2}|{z:N2}";
 
 			/*
@@ -180,7 +197,7 @@ Connection: Keep-Alive
 
 			//var sas = "SharedAccessSignature sr=hubtohellandback.azure-devices.net&sig=jDw6ZKXaza9kFdEUmWH25tkrx43bSsStxBpt3UQ2Am0%3d&se=1450899958";	
 
-			var action = $"/devices/{device}/messages/events?api-version=2015-08-15-preview";
+			var action = $"devices/{device}/messages/events?api-version=2015-08-15-preview";
 
 			var httpClient = new HttpClient
 			{
@@ -201,6 +218,7 @@ Connection: Keep-Alive
 			result = result;
 			var i = 0;
 			i++;
+			#endif
 		}
 
 

@@ -43,18 +43,35 @@ namespace IngestionService
             // TODO: Replace the following sample code with your own logic.
 
             // Gets (or creates) a replicated dictionary called "myDictionary" in this partition.
-            var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
+            // var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
+            eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
 
-            // This partition's replica continues processing until the replica is terminated.
+
             while (!cancelServicePartitionReplica.IsCancellationRequested)
-            {
-                eventHubClient = EventHubClient.CreateFromConnectionString(connectionString, iotHubD2cEndpoint);
-
+            { 
                 var d2cPartitions = eventHubClient.GetRuntimeInformation().PartitionIds;
 
                 foreach (string partition in d2cPartitions)
                 {
-                    await ReceiveMessagesFromDeviceAsync(partition, cancelServicePartitionReplica);
+                    var eventHubReceiver = eventHubClient.GetDefaultConsumerGroup().CreateReceiver(partition, DateTime.Now);
+
+                    EventData eventData = await eventHubReceiver.ReceiveAsync();
+                    if (eventData == null) continue;
+
+                    string data = Encoding.UTF8.GetString(eventData.GetBytes());
+                   
+                    var values = data.Split('|');
+                    
+                    var id = new ActorId(values[0]);
+                    var actor = ActorProxy.Create<ICabDriverActorService>(id);
+                    var name = await actor.GetNameAsync();
+
+                    if (name == "Jon Doe")
+                    {
+                        await actor.SetNameAsync(values[0]);
+                    }
+                    await actor.UpdateScoreAsync(eventData.EnqueuedTimeUtc, double.Parse(values[1]), int.Parse(values[3]), double.Parse(values[2]));
+
                 }
 
 
@@ -100,54 +117,7 @@ namespace IngestionService
             }
         }
 
-        private async Task ReceiveMessagesFromDeviceAsync(string partition, CancellationToken cancelServicePartitionReplica)
-        {
-            var eventHubReceiver = eventHubClient.GetDefaultConsumerGroup().CreateReceiver(partition, DateTime.Now);
-            while (!cancelServicePartitionReplica.IsCancellationRequested)
-            {
-                EventData eventData = await eventHubReceiver.ReceiveAsync();
-                if (eventData == null) continue;
-
-                string data = Encoding.UTF8.GetString(eventData.GetBytes());
-                Console.WriteLine(string.Format("Message received. Partition: {0} Data: '{1}'", partition, data));
-
-                var values = data.Split('|');
-                //Call the actor.
-
-                //Add it if its not in the dict.
-                var id = new ActorId(values[0]);
-                var actor = ActorProxy.Create<ICabDriverActorService>(id);
-                var name = await actor.GetNameAsync();
-
-                if (name == "Jon Doe")
-                {
-                    await actor.SetNameAsync(values[0]);
-                }
-                await actor.UpdateScoreAsync(eventData.EnqueuedTimeUtc, double.Parse(values[1]), int.Parse(values[3]),double.Parse(values[2]));
-
-                //// Create a transaction to perform operations on data within this partition's replica.
-                //using (var tx = this.StateManager.CreateTransaction())
-                //{
-
-                //    // Try to read a value from the dictionary whose key is "Counter-1".
-                //    var result = await cabDriverDictionary.TryGetValueAsync(tx, "Counter-1");
-
-                //    // Log whether the value existed or not.
-                //    ServiceEventSource.Current.ServiceMessage(this, "Current Counter Value: {0}",
-                //        result.HasValue ? result.Value.ToString() : "Value does not exist.");
-
-                //    // If the "Counter-1" key doesn't exist, set its value to 0
-                //    // else add 1 to its current value.
-                //    // await cabDriverDictionary.AddOrUpdateAsync(tx, "Counter-1", 0, (k, v) => ++v);
-
-                //    // Committing the transaction serializes the changes and writes them to this partition's secondary replicas.
-                //    // If an exception is thrown before calling CommitAsync, the transaction aborts, all changes are 
-                //    // discarded, and nothing is sent to this partition's secondary replicas.
-                //    await tx.CommitAsync();
-                //}
-
-            }
-        }
+          
 
     }
 }

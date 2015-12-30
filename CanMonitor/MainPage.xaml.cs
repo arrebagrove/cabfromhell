@@ -15,6 +15,8 @@ using Microsoft.Azure.Devices.Client;
 using GIS = GHIElectronics.UWP.Shields;
 using Windows.Devices.Sensors;
 using Windows.UI.Core;
+using Microsoft.Band;
+using Microsoft.Band.Sensors;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -39,6 +41,7 @@ namespace CanMonitor
         private double _x, _y, _z;
         double _aggregatedLength;
         private int counter;
+        private int previousHeartRate;
 
         public MainPage()
         {
@@ -74,6 +77,46 @@ namespace CanMonitor
             }
             if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
             {
+                IBandInfo[] pairedBands = await BandClientManager.Instance.GetBandsAsync();
+
+                try
+                {
+                    using (IBandClient bandClient = await BandClientManager.Instance.ConnectAsync(pairedBands[0]))
+                    {
+                        if (bandClient.SensorManager.HeartRate.GetCurrentUserConsent() != UserConsent.Granted)
+                        {
+                            // user hasn’t consented, request consent  
+                            await bandClient.SensorManager.HeartRate.RequestUserConsentAsync();
+                        }
+
+                        bandClient.SensorManager.HeartRate.ReportingInterval = bandClient.SensorManager.HeartRate.SupportedReportingIntervals.First<TimeSpan>();
+                        //    bandClient.SensorManager.HeartRate.SupportedReportingIntervals.GetEnumerator().Current;
+                        bandClient.SensorManager.HeartRate.ReadingChanged += (sender, args) =>
+                        {
+                            if (previousHeartRate == 0)
+                                previousHeartRate = args.SensorReading.HeartRate;
+
+                            if (args.SensorReading.HeartRate > previousHeartRate + 5)
+                            {
+                                Debug.WriteLine("Terrible driver detected");
+                            }
+                            previousHeartRate = args.SensorReading.HeartRate;
+                        };
+
+                        try
+                        {
+                            await bandClient.SensorManager.HeartRate.StartReadingsAsync();
+                        }
+                        catch (BandException ex)
+                        {
+                            // handle a Band connection exception     
+                            throw ex;
+                        }
+                    }
+                }
+                catch (BandException ex)
+                {     // handle a Band connection exception 
+                } 
                 driverText.Text = "Smith";
                 _accelerometer = Accelerometer.GetDefault();
 
@@ -93,7 +136,7 @@ namespace CanMonitor
         private async void ReadingChanged(object sender, AccelerometerReadingChangedEventArgs e)
         {
                 AccelerometerReading reading = e.Reading;
-                double x, y, z, deltaX, deltaY, deltaZ;
+                double deltaX, deltaY, deltaZ;
                 
                 deltaX = reading.AccelerationX - _x;
                 deltaY = reading.AccelerationY - _y;
